@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-negotiation-prober"
+version = "1.0.0"
+description = "Probe MCP endpoints across protocol eras to detect honest negotiation vs silent downgrade vs echo-parrot (stdlib only)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+[project.scripts]
+mcp-negotiation-prober = "mcp_negotiation_prober:main"
+
+[tool.setuptools]
+py-modules = ["mcp_negotiation_prober"]
