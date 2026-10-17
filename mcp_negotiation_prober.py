@@ -61,11 +61,17 @@ def classify_response(requested, echoed, header_version=None):
                               % (echoed, header_version)}
         return {"verdict": "HONEST",
                 "detail": "server negotiated %r as requested" % echoed}
-    if echoed in REAL_ERAS and REAL_ERAS.index(echoed) < \
-            REAL_ERAS.index(requested):
-        return {"verdict": "SILENT-DOWNGRADE",
-                "detail": "asked %r, server answered %r without declaring "
-                          "the downgrade" % (requested, echoed)}
+    if echoed in REAL_ERAS:
+        if requested in REAL_ERAS and \
+                REAL_ERAS.index(echoed) < REAL_ERAS.index(requested):
+            return {"verdict": "SILENT-DOWNGRADE",
+                    "detail": "asked %r, server answered %r without declaring "
+                              "the downgrade" % (requested, echoed)}
+        if requested in FICTIONAL_ERAS:
+            return {"verdict": "SILENT-DOWNGRADE",
+                    "detail": "asked fictional era %r, server answered its "
+                              "default %r — the field is not validated"
+                              % (requested, echoed)}
     return {"verdict": "UNKNOWN",
             "detail": "unexpected version %r" % echoed}
 
